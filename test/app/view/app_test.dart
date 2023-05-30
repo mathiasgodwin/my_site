@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:my_site/app/app.dart';
+import 'package:my_site/src/app.dart';
 import 'package:my_site/counter/counter.dart';
 
 void main() {
