@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_site/l10n/l10n.dart';
 import 'package:my_site/src/my_site/logic/app_theme/app_theme_cubit.dart';
-import 'package:my_site/src/my_site/view/pages/home_page.dart';
+import 'package:my_site/src/util/ui/navigation/app_route.dart';
 import 'package:my_site/src/util/ui/theme/theme.dart';
 
 class App extends StatelessWidget {
@@ -37,14 +37,17 @@ class _AppView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AppThemeCubit, AppThemeState>(
       builder: (context, state) {
-        return MaterialApp(
+        return MaterialApp.router(
+          title: 'Godwin Mathias',
+          routeInformationProvider: AppRouter.router.routeInformationProvider,
+          routeInformationParser: AppRouter.router.routeInformationParser,
+          routerDelegate: AppRouter.router.routerDelegate,
           debugShowCheckedModeBanner: false,
           theme: state.appTheme.toTheme,
           themeMode: state.mode,
           darkTheme: AppTheme.purpleDark.toTheme,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
-          home: const HomePage(),
         );
       },
     );

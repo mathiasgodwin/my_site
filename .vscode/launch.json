@@ -28,6 +28,8 @@
         "development",
         "--target",
         "lib/main_development.dart",
+        "-d",
+        "chrome",
       ]
     },
     {
@@ -39,7 +41,9 @@
         "--flavor",
         "staging",
         "--target",
-        "lib/main_staging.dart"
+        "lib/main_staging.dart",
+        "-d",
+        "chrome",
       ]
     },
     {
@@ -51,7 +55,9 @@
         "--flavor",
         "production",
         "--target",
-        "lib/main_production.dart"
+        "lib/main_production.dart",
+        "-d",
+        "chrome",
       ]
     }
   ]

@@ -1,6 +1,7 @@
 // TODO: Put public facing types in this file.
 
 import './model/user.dart';
+export './model/model.dart';
 
 abstract class UserRepository {
   User get user;
