@@ -197,23 +197,19 @@ class DownloadResume extends StatelessWidget {
         Row(
           children: [
             Text(
-              'Download Resume',
+              'Resume',
               style: theme.textTheme.bodySmall?.copyWith(
-                color: theme.colorScheme.primary,
+                color: theme.colorScheme.primaryContainer,
+                fontWeight: FontWeight.bold,
               ),
             ),
             Icon(
               Icons.file_download_outlined,
-              color: theme.colorScheme.primary,
+              color: theme.colorScheme.primaryContainer,
             ),
           ],
         ),
-        FilledButton(
-          style: theme.elevatedButtonTheme.style?.copyWith(
-            backgroundColor: MaterialStatePropertyAll(
-              theme.colorScheme.primaryContainer,
-            ),
-          ),
+        OutlinedButton(
           onPressed: () {},
           child: Row(
             children: <Widget>[
