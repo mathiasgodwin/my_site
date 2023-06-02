@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:my_site/src/util/ui/theme/styles.dart';
 import 'package:user_data/user_data.dart';
 
 /// TODO: Finish the docs
@@ -17,17 +18,29 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       extendBodyBehindAppBar: true,
-      body: Padding(
-        padding: EdgeInsets.only(top: kToolbarHeight),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            GreetingsUserNameSkills(),
-            UserAvatar(),
-            DownloadResume(),
-          ],
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Padding(
+          padding: EdgeInsets.only(
+            top: kToolbarHeight,
+            left: Insets.lg,
+            right: Insets.lg,
+          ),
+          child: const Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  GreetingsUserNameSkills(),
+                  UserAvatar(),
+                  DownloadResume(),
+                ],
+              ),
+              Divider(),
+            ],
+          ),
         ),
       ),
     );
@@ -40,11 +53,15 @@ class GreetingsUserNameSkills extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Greetings(),
-        UserName(),
-        UserProfessions(),
-        UserFontFacingSocialsMedia(),
+        const Greetings(),
+        VSpace.s15,
+        const UserName(),
+        VSpace.s15,
+        const UserProfessions(),
+        VSpace.s15,
+        const UserFontFacingSocialsMedia(),
       ],
     );
   }
@@ -88,11 +105,11 @@ class UserName extends StatelessWidget {
       children: <Widget>[
         Text(
           user.firstName,
-          style: theme.textTheme.titleLarge,
+          style: theme.textTheme.headlineLarge,
         ),
         Text(
           user.lastName,
-          style: theme.textTheme.titleLarge,
+          style: theme.textTheme.headlineLarge,
         ),
       ],
     );
@@ -110,11 +127,25 @@ class UserProfessions extends StatelessWidget {
       children: <Widget>[
         Text(
           user.professions[0],
-          style: theme.textTheme.labelSmall,
+          style: theme.textTheme.labelSmall?.copyWith(
+            color: theme.colorScheme.secondary,
+          ),
         ),
+        HSpace.s10,
+        Container(
+          width: 6,
+          height: 6,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: theme.colorScheme.secondary,
+          ),
+        ),
+        HSpace.s10,
         Text(
           user.professions[1],
-          style: theme.textTheme.labelSmall,
+          style: theme.textTheme.labelSmall?.copyWith(
+            color: theme.colorScheme.secondary,
+          ),
         )
       ],
     );
@@ -130,9 +161,9 @@ class UserFontFacingSocialsMedia extends StatelessWidget {
 
     return Row(
       children: <Widget>[
-        IconButton(onPressed: () {}, icon: Icon(Icons.link)),
-        IconButton(onPressed: () {}, icon: Icon(Icons.link)),
-        IconButton(onPressed: () {}, icon: Icon(Icons.link)),
+        IconButton(onPressed: () {}, icon: const Icon(Icons.link)),
+        IconButton(onPressed: () {}, icon: const Icon(Icons.link)),
+        IconButton(onPressed: () {}, icon: const Icon(Icons.link)),
       ],
     );
   }
@@ -178,6 +209,11 @@ class DownloadResume extends StatelessWidget {
           ],
         ),
         FilledButton(
+          style: theme.elevatedButtonTheme.style?.copyWith(
+            backgroundColor: MaterialStatePropertyAll(
+              theme.colorScheme.primaryContainer,
+            ),
+          ),
           onPressed: () {},
           child: Row(
             children: <Widget>[

@@ -10,8 +10,8 @@ abstract class UserRepository {
 class UserRepositoryImpl implements UserRepository {
   @override
   User get user => User(
-        firstName: 'Mathias',
-        lastName: 'Godwin',
+        firstName: 'Godwin',
+        lastName: 'Mathias',
         professions: ['Mobile Developer', 'Technical Writer'],
         frontFacingSocialsMedia: {
           'github': 'https://github.com/mathiasgodwin',
