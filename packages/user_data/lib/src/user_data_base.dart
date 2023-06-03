@@ -15,7 +15,7 @@ class UserRepositoryImpl implements UserRepository {
         professions: ['Mobile Developer', 'Technical Writer'],
         frontFacingSocialsMedia: {
           'github': 'https://github.com/mathiasgodwin',
-          'linkedIn': 'https://linkedin.com/in/mathiasgodwin',
+          'linkedin': 'https://linkedin.com/in/mathiasgodwin',
           'dev': 'https://dev.to/mathiasgodwin',
         },
       );

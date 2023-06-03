@@ -1,8 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:my_site/src/my_site/view/widgets/user_social_media.dart';
 import 'package:my_site/src/util/ui/theme/styles.dart';
+import 'package:responsive_toolkit/responsive_grid.dart';
+import 'package:responsive_toolkit/responsive_toolkit.dart';
 import 'package:user_data/user_data.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:wolt_responsive_layout_grid/wolt_responsive_layout_grid.dart';
 
 /// TODO: Finish the docs
 /// HomePage to...
@@ -18,6 +23,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isNormal = context.screenSize == ScreenSize.normal;
     return Scaffold(
       extendBodyBehindAppBar: true,
       body: SingleChildScrollView(
@@ -28,17 +34,28 @@ class HomePage extends StatelessWidget {
             left: Insets.lg,
             right: Insets.lg,
           ),
-          child: const Column(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Row(
+              Flex(
+                direction: isNormal ? Axis.vertical : Axis.horizontal,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  GreetingsUserNameSkills(),
-                  UserAvatar(),
-                  DownloadResume(),
+                  if (isNormal)
+                    const SizedBox.shrink()
+                  else
+                    const GreetingsUserNameSkills(),
+                  const UserAvatar(),
+                  if (!isNormal)
+                    const SizedBox.shrink()
+                  else
+                    const GreetingsUserNameSkills(),
+                  const DownloadResume(),
                 ],
               ),
-              Divider(),
+              const Divider(),
             ],
           ),
         ),
@@ -48,7 +65,7 @@ class HomePage extends StatelessWidget {
 }
 
 class GreetingsUserNameSkills extends StatelessWidget {
-  const GreetingsUserNameSkills({Key? key}) : super(key: key);
+  const GreetingsUserNameSkills({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -61,19 +78,23 @@ class GreetingsUserNameSkills extends StatelessWidget {
         VSpace.s15,
         const UserProfessions(),
         VSpace.s15,
-        const UserFontFacingSocialsMedia(),
+        if (context.isNormal)
+          const SizedBox.shrink()
+        else
+          const UserFontFacingSocialsMedia(),
       ],
     );
   }
 }
 
 class Greetings extends StatelessWidget {
-  const Greetings({Key? key}) : super(key: key);
+  const Greetings({super.key});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Container(
+      constraints: const BoxConstraints.tightFor(width: 120),
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(12)),
@@ -95,7 +116,7 @@ class Greetings extends StatelessWidget {
 }
 
 class UserName extends StatelessWidget {
-  const UserName({Key? key}) : super(key: key);
+  const UserName({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +138,7 @@ class UserName extends StatelessWidget {
 }
 
 class UserProfessions extends StatelessWidget {
-  const UserProfessions({Key? key}) : super(key: key);
+  const UserProfessions({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -152,32 +173,26 @@ class UserProfessions extends StatelessWidget {
   }
 }
 
-class UserFontFacingSocialsMedia extends StatelessWidget {
-  const UserFontFacingSocialsMedia({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final user = UserRepositoryImpl().user;
-
-    return Row(
-      children: <Widget>[
-        IconButton(onPressed: () {}, icon: const Icon(Icons.link)),
-        IconButton(onPressed: () {}, icon: const Icon(Icons.link)),
-        IconButton(onPressed: () {}, icon: const Icon(Icons.link)),
-      ],
-    );
-  }
-}
 
 class UserAvatar extends StatelessWidget {
-  const UserAvatar({Key? key}) : super(key: key);
+  const UserAvatar({super.key});
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final w = size.width;
+    final width = ResponsiveLayout.value(
+      context,
+      Breakpoints(
+        xs: w * .8,
+        sm: w * .4,
+        md: w * .3,
+        lg: w * .3,
+        xl: w * .3,
+      ),
+    );
     return SizedBox(
-      width: w * .2,
+      width: width.toDouble(),
       child: SvgPicture.asset(
         'assets/images/svg/cartoon-user-avatar.svg',
       ),
@@ -186,13 +201,17 @@ class UserAvatar extends StatelessWidget {
 }
 
 class DownloadResume extends StatelessWidget {
-  const DownloadResume({Key? key}) : super(key: key);
+  const DownloadResume({super.key});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Column(
+    final isNormal = context.screenSize == ScreenSize.normal;
+
+    return Flex(
+      direction: isNormal ? Axis.horizontal : Axis.vertical,
       crossAxisAlignment: CrossAxisAlignment.end,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Row(
           children: [
@@ -209,6 +228,7 @@ class DownloadResume extends StatelessWidget {
             ),
           ],
         ),
+        HSpace.s10,
         OutlinedButton(
           onPressed: () {},
           child: Row(
