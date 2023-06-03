@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:my_site/src/util/ui/theme/styles.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({
@@ -17,6 +18,39 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isNormal = context.screenSize == ScreenSize.normal;
+    return isNormal
+        ? MobileAppBar(
+            action: action,
+          )
+        : LargeScreenAppBar(
+            theme: theme,
+            leading: leading,
+            title: title,
+            action: action,
+          );
+  }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(56);
+}
+
+class LargeScreenAppBar extends StatelessWidget {
+  const LargeScreenAppBar({
+    required this.theme,
+    required this.leading,
+    required this.title,
+    required this.action,
+    super.key,
+  });
+
+  final ThemeData theme;
+  final Widget? leading;
+  final Widget? title;
+  final List<Widget>? action;
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(
         top: 8,
@@ -66,9 +100,31 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
     );
   }
-
-  @override
-  Size get preferredSize => const Size.fromHeight(56);
 }
 
+class MobileAppBar extends StatelessWidget {
+  const MobileAppBar({super.key, this.action});
+  final List<Widget>? action;
 
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Container(
+        decoration: BoxDecoration(
+          color: theme.colorScheme.primaryContainer.withOpacity(.3),
+          borderRadius: const BorderRadius.all(
+            Radius.circular(12),
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            if (action == null) const SizedBox.shrink() else ...action!,
+          ],
+        ),
+      ),
+    );
+  }
+}

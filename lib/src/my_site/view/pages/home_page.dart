@@ -29,11 +29,17 @@ class HomePage extends StatelessWidget {
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Padding(
-          padding: EdgeInsets.only(
-            top: kToolbarHeight,
-            left: Insets.lg,
-            right: Insets.lg,
-          ),
+          padding: isNormal
+              ? EdgeInsets.only(
+                  top: kToolbarHeight,
+                  left: Insets.lg,
+                  right: Insets.lg,
+                )
+              : EdgeInsets.only(
+                  top: kToolbarHeight,
+                  left: Insets.xxl,
+                  right: Insets.xxl,
+                ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -172,7 +178,6 @@ class UserProfessions extends StatelessWidget {
     );
   }
 }
-
 
 class UserAvatar extends StatelessWidget {
   const UserAvatar({super.key});
