@@ -27,7 +27,7 @@ class AppThemeCubit extends HydratedCubit<AppThemeState> {
   @override
   Map<String, dynamic>? toJson(AppThemeState state) {
     return {
-      'themeId': state.appTheme.name,
+      'themeId': state.appTheme.serialize,
       'modeId': state.mode.serialize,
     };
   }

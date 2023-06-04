@@ -3,8 +3,8 @@ part of 'app_theme_cubit.dart';
 
 class AppThemeState extends Equatable {
   const AppThemeState({
-    this.appTheme = AppTheme.purpleLight,
-    this.mode = ThemeMode.system,
+    this.appTheme = AppTheme.purpleDark,
+    this.mode = ThemeMode.dark,
   });
   final AppTheme appTheme;
   final ThemeMode mode;

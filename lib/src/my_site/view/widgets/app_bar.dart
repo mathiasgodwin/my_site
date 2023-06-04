@@ -1,7 +1,10 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_site/src/my_site/logic/app_theme/app_theme_cubit.dart';
 import 'package:my_site/src/util/ui/theme/styles.dart';
+import 'package:my_site/src/util/ui/theme/theme.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({
@@ -110,7 +113,7 @@ class MobileAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 40),
       child: Container(
         decoration: BoxDecoration(
           color: theme.colorScheme.primaryContainer.withOpacity(.3),
@@ -118,13 +121,42 @@ class MobileAppBar extends StatelessWidget {
             Radius.circular(12),
           ),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            if (action == null) const SizedBox.shrink() else ...action!,
+        child: Stack(
+          children: [
+            Align(
+              alignment: Alignment.center,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  if (action == null) const SizedBox.shrink() else ...action!,
+                ],
+              ),
+            ),
+            Align(
+              alignment: Alignment(-1.1, 0),
+              child: ConstrainedBox(
+                constraints: BoxConstraints.tight(Size(50, 50)),
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: theme.colorScheme.primaryContainer,
+                  ),
+                  child: CustomDrawer(),
+                ),
+              ),
+            ),
           ],
         ),
       ),
     );
+  }
+}
+
+class CustomDrawer extends StatelessWidget {
+  const CustomDrawer({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return DrawerButton();
   }
 }
