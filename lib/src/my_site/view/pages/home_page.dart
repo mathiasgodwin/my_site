@@ -225,7 +225,6 @@ class DownloadResume extends StatelessWidget {
     return Flex(
       direction: isNormal ? Axis.horizontal : Axis.vertical,
       crossAxisAlignment: CrossAxisAlignment.end,
-      mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Row(
           children: [
