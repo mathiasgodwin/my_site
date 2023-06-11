@@ -8,6 +8,11 @@ abstract class UserRepository {
 }
 
 class UserRepositoryImpl implements UserRepository {
+  UserRepositoryImpl._();
+
+  static final UserRepositoryImpl _instance = UserRepositoryImpl._();
+  factory UserRepositoryImpl() => _instance;
+
   @override
   User get user => User(
         firstName: 'Godwin',

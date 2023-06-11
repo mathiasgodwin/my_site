@@ -11,6 +11,7 @@ class UserFontFacingSocialsMedia extends StatelessWidget {
     final user = UserRepositoryImpl().user;
 
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         IconButton(
             onPressed: () {}, icon: const Icon(FontAwesomeIcons.linkedin)),

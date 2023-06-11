@@ -3,11 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:my_site/src/my_site/view/widgets/user_social_media.dart';
 import 'package:my_site/src/util/ui/theme/styles.dart';
-import 'package:responsive_toolkit/responsive_grid.dart';
 import 'package:responsive_toolkit/responsive_toolkit.dart';
 import 'package:user_data/user_data.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:wolt_responsive_layout_grid/wolt_responsive_layout_grid.dart';
 
 /// TODO: Finish the docs
 /// HomePage to...
@@ -41,13 +38,12 @@ class HomePage extends StatelessWidget {
                   right: Insets.xxl,
                 ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Flex(
+                mainAxisSize: MainAxisSize.min,
                 direction: isNormal ? Axis.vertical : Axis.horizontal,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   if (isNormal)
                     const SizedBox.shrink()
@@ -75,6 +71,7 @@ class GreetingsUserNameSkills extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isNormal = context.screenSize == ScreenSize.normal;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -84,7 +81,7 @@ class GreetingsUserNameSkills extends StatelessWidget {
         VSpace.s15,
         const UserProfessions(),
         VSpace.s15,
-        if (context.isNormal)
+        if (isNormal)
           const SizedBox.shrink()
         else
           const UserFontFacingSocialsMedia(),
@@ -100,7 +97,7 @@ class Greetings extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Container(
-      constraints: const BoxConstraints.tightFor(width: 120),
+      constraints: const BoxConstraints.tightFor(width: 130),
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(12)),
@@ -109,8 +106,15 @@ class Greetings extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
+          const Text(
+            '👋',
+            style: TextStyle(
+              fontSize: 25,
+              decoration: TextDecoration.none,
+            ),
+          ),
           Text(
-            '👋 Hello there.',
+            'Hello there.',
             style: theme.textTheme.bodyMedium?.copyWith(
               color: theme.colorScheme.primary,
             ),
@@ -129,14 +133,19 @@ class UserName extends StatelessWidget {
     final user = UserRepositoryImpl().user;
     final theme = Theme.of(context);
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
           user.firstName,
-          style: theme.textTheme.headlineLarge,
+          style: theme.textTheme.displayLarge?.copyWith(
+            fontSize: theme.textTheme.displayLarge!.fontSize! * 1.7,
+          ),
         ),
         Text(
           user.lastName,
-          style: theme.textTheme.headlineLarge,
+          style: theme.textTheme.displayLarge?.copyWith(
+            fontSize: theme.textTheme.displayLarge!.fontSize! * 1.7,
+          ),
         ),
       ],
     );
@@ -197,7 +206,7 @@ class UserAvatar extends StatelessWidget {
       ),
     );
     return SizedBox(
-      width: width.toDouble(),
+      width: width,
       child: SvgPicture.asset(
         'assets/images/svg/cartoon-user-avatar.svg',
       ),

@@ -1,14 +1,16 @@
 import 'dart:ui';
 
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_site/src/my_site/logic/app_theme/app_theme_cubit.dart';
+import 'package:my_site/src/my_site/view/widgets/user_social_media.dart';
 import 'package:my_site/src/util/ui/theme/styles.dart';
 import 'package:my_site/src/util/ui/theme/theme.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({
-    Key? key,
+    required this.smallAction, required this.smallLeading, Key? key,
     this.leading,
     this.action,
     this.title,
@@ -17,6 +19,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? leading;
   final List<Widget>? action;
   final Widget? title;
+  final Widget smallAction;
+  final List<Widget> smallLeading;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +28,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     final isNormal = context.screenSize == ScreenSize.normal;
     return isNormal
         ? MobileAppBar(
-            action: action,
+            action: smallAction,
+            leading: smallLeading,
           )
         : LargeScreenAppBar(
             theme: theme,
@@ -106,14 +111,15 @@ class LargeScreenAppBar extends StatelessWidget {
 }
 
 class MobileAppBar extends StatelessWidget {
-  const MobileAppBar({super.key, this.action});
-  final List<Widget>? action;
+  const MobileAppBar({required this.action, required this.leading, super.key});
+  final List<Widget> leading;
+  final Widget action;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 40),
+      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 8),
       child: Container(
         decoration: BoxDecoration(
           color: theme.colorScheme.primaryContainer.withOpacity(.3),
@@ -125,23 +131,20 @@ class MobileAppBar extends StatelessWidget {
           children: [
             Align(
               alignment: Alignment.center,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  if (action == null) const SizedBox.shrink() else ...action!,
-                ],
-              ),
+              child: action,
             ),
             Align(
-              alignment: Alignment(-1.1, 0),
+              alignment: const Alignment(-1.1, 0),
               child: ConstrainedBox(
-                constraints: BoxConstraints.tight(Size(50, 50)),
+                constraints: BoxConstraints.tight(const Size(50, 50)),
                 child: Container(
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: theme.colorScheme.primaryContainer,
                   ),
-                  child: CustomDrawer(),
+                  child: CustomDrawer(
+                    items: leading,
+                  ),
                 ),
               ),
             ),
@@ -153,10 +156,49 @@ class MobileAppBar extends StatelessWidget {
 }
 
 class CustomDrawer extends StatelessWidget {
-  const CustomDrawer({Key? key}) : super(key: key);
+  const CustomDrawer({
+    required this.items, super.key,
+  });
+  final List<Widget> items;
 
   @override
   Widget build(BuildContext context) {
-    return DrawerButton();
+    final theme = Theme.of(context);
+    return DropdownButtonHideUnderline(
+      child: DropdownButton2(
+        isExpanded: true,
+        customButton: const Icon(Icons.list),
+        hint: const Icon(
+          Icons.list,
+        ),
+        items: items
+            .map(
+              (item) => DropdownMenuItem<Widget>(
+                value: item,
+                child: item,
+              ),
+            )
+            .toList(),
+        onChanged: (v) {},
+        dropdownStyleData: DropdownStyleData(
+            maxHeight: 200,
+            width: 200,
+            padding: EdgeInsets.zero,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(14),
+              color: theme.colorScheme.primaryContainer,
+            ),
+            offset: const Offset(-20, 0),
+            scrollbarTheme: ScrollbarThemeData(
+              radius: const Radius.circular(40),
+              thickness: MaterialStateProperty.all(6),
+              thumbVisibility: MaterialStateProperty.all(true),
+            )),
+        menuItemStyleData: const MenuItemStyleData(
+          height: 40,
+          padding: EdgeInsets.only(left: 14, right: 14),
+        ),
+      ),
+    );
   }
 }

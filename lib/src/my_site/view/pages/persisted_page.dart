@@ -30,58 +30,100 @@ class _PersistedPageState extends State<PersistedPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isNormal = context.screenSize == ScreenSize.normal;
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: CustomAppBar(
+        smallLeading: [
+          TextButton(
+            onPressed: () {
+              _goOtherTab(context, 0);
+            },
+            child: Text(
+              'Home',
+              style: _currentIndex == 0
+                  ? theme.textTheme.bodyMedium?.copyWith(
+                      color: theme.colorScheme.primary,
+                      fontWeight: FontWeight.bold,
+                    )
+                  : theme.textTheme.bodyMedium,
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              _goOtherTab(context, 1);
+            },
+            child: Text(
+              'Portfolio',
+              style: _currentIndex == 1
+                  ? theme.textTheme.bodyMedium?.copyWith(
+                      color: theme.colorScheme.primary,
+                      fontWeight: FontWeight.bold,
+                    )
+                  : theme.textTheme.bodyMedium,
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              _goOtherTab(context, 2);
+            },
+            child: Text(
+              'Contact',
+              style: _currentIndex == 2
+                  ? theme.textTheme.bodyMedium?.copyWith(
+                      color: theme.colorScheme.primary,
+                      fontWeight: FontWeight.bold,
+                    )
+                  : theme.textTheme.bodyMedium,
+            ),
+          ),
+        ],
         leading: SvgPicture.asset('assets/images/svg/logo.svg'),
-        action: isNormal
-            ? [UserFontFacingSocialsMedia()]
-            : [
-                TextButton(
-                  onPressed: () {
-                    _goOtherTab(context, 0);
-                  },
-                  child: Text(
-                    'Home',
-                    style: _currentIndex == 0
-                        ? theme.textTheme.bodyMedium?.copyWith(
-                            color: theme.colorScheme.primary,
-                            fontWeight: FontWeight.bold,
-                          )
-                        : theme.textTheme.bodyMedium,
-                  ),
-                ),
-                HSpace.s10,
-                TextButton(
-                  onPressed: () {
-                    _goOtherTab(context, 1);
-                  },
-                  child: Text(
-                    'Portfolio',
-                    style: _currentIndex == 1
-                        ? theme.textTheme.bodyMedium?.copyWith(
-                            color: theme.colorScheme.primary,
-                            fontWeight: FontWeight.bold,
-                          )
-                        : theme.textTheme.bodyMedium,
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {
-                    _goOtherTab(context, 2);
-                  },
-                  child: Text(
-                    'Contact',
-                    style: _currentIndex == 2
-                        ? theme.textTheme.bodyMedium?.copyWith(
-                            color: theme.colorScheme.primary,
-                            fontWeight: FontWeight.bold,
-                          )
-                        : theme.textTheme.bodyMedium,
-                  ),
-                ),
-              ],
+        smallAction: UserFontFacingSocialsMedia(),
+        action: [
+          TextButton(
+            onPressed: () {
+              _goOtherTab(context, 0);
+            },
+            child: Text(
+              'Home',
+              style: _currentIndex == 0
+                  ? theme.textTheme.bodyMedium?.copyWith(
+                      color: theme.colorScheme.primary,
+                      fontWeight: FontWeight.bold,
+                    )
+                  : theme.textTheme.bodyMedium,
+            ),
+          ),
+          HSpace.s10,
+          TextButton(
+            onPressed: () {
+              _goOtherTab(context, 1);
+            },
+            child: Text(
+              'Portfolio',
+              style: _currentIndex == 1
+                  ? theme.textTheme.bodyMedium?.copyWith(
+                      color: theme.colorScheme.primary,
+                      fontWeight: FontWeight.bold,
+                    )
+                  : theme.textTheme.bodyMedium,
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              _goOtherTab(context, 2);
+            },
+            child: Text(
+              'Contact',
+              style: _currentIndex == 2
+                  ? theme.textTheme.bodyMedium?.copyWith(
+                      color: theme.colorScheme.primary,
+                      fontWeight: FontWeight.bold,
+                    )
+                  : theme.textTheme.bodyMedium,
+            ),
+          ),
+        ],
       ),
       body: widget.child,
     );
@@ -89,7 +131,7 @@ class _PersistedPageState extends State<PersistedPage> {
 
   void _goOtherTab(BuildContext context, int index) {
     if (index == _currentIndex) return;
-    var router = GoRouter.of(context);
+    final router = GoRouter.of(context);
     final location = tabs[index];
 
     setState(() {
